@@ -49,4 +49,5 @@ jobs:
         key: ${{ secrets.REMOTE_SSH_KEY }}
         port: ${{ secrets.REMOTE_SSH_PORT }}
         script: |
-          java -jar jy-note/libs/note-0.0.1-SNAPSHOT.jar &
+          cd ./jy-note
+          launch.sh
