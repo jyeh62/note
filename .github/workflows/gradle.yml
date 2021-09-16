@@ -41,6 +41,16 @@ jobs:
         source: "build/libs/*-SNAPSHOT.jar"
         target: "./jy-note"
         strip_components: 1
+    - name: Pre Launch
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.REMOTE_IP }}
+        username: ${{ secrets.REMOTE_SSH_ID }}
+        key: ${{ secrets.REMOTE_SSH_KEY }}
+        port: ${{ secrets.REMOTE_SSH_PORT }}
+        script: |
+          cd ./jy-note
+          ./end.sh
     - name: Launch
       uses: appleboy/ssh-action@master
       with:
