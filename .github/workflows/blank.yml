@@ -1,0 +1,32 @@
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Pre Launch
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.REMOTE_IP }}
+        username: ${{ secrets.REMOTE_SSH_ID }}
+        key: ${{ secrets.REMOTE_SSH_KEY }}
+        port: ${{ secrets.REMOTE_SSH_PORT }}
+        script: |
+          cd ./jy-note
+          CURRENT_PID=$(pgrep -f note)
+          echo "$CURRENT_PID"
+          if [ -z $CURRENT_PID ]; then
+              echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다."
+          else
+              echo "> kill -9 $CURRENT_PID"
+              sudo kill -9 $CURRENT_PID > /dev/null 2>&1
+              sleep 5
+          fi
